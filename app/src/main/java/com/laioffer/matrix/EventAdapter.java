@@ -1,6 +1,7 @@
 package com.laioffer.matrix;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +14,12 @@ public class EventAdapter extends BaseAdapter {
 
     Context context;
     List<Event> eventData;
+    private int mSelectedIndex;
 
     public EventAdapter(Context context) {
         this.context = context;
         eventData = DataService.getEventData();
+        mSelectedIndex = -1;
     }
 
     @Override
@@ -51,6 +54,15 @@ public class EventAdapter extends BaseAdapter {
         eventAddress.setText(event.getAddress());
         eventDescription.setText(event.getDescription());
 
+        if (i == mSelectedIndex) {
+            view.setBackgroundColor(Color.BLUE);
+        } else {
+            view.setBackgroundColor(Color.parseColor("#FAFAFA"));
+        }
         return view;
+    }
+
+    public void setSelectedIndex(int selectedIndex) {
+        mSelectedIndex = selectedIndex;
     }
 }
