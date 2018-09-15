@@ -8,4 +8,9 @@ public class ListViewActivity extends SingleFragmentActivity {
     protected Fragment createFragment() {
         return ListViewFragment.newInstance();
     }
+
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.activity_master_detail;
+    }
 }
