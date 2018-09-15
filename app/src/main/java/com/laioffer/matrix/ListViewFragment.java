@@ -1,5 +1,6 @@
 package com.laioffer.matrix;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,6 +16,20 @@ import android.widget.ListView;
 public class ListViewFragment extends Fragment {
 
     private ListView mListView;
+    private Callbacks mCallbacks;
+
+    /**
+     * Required interface for hosting activities
+     * */
+    public interface Callbacks {
+        void onEventSelected(Integer position);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mCallbacks = (Callbacks) context;
+    }
 
     public static ListViewFragment newInstance() {
         return new ListViewFragment();
@@ -38,12 +53,17 @@ public class ListViewFragment extends Fragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = GridViewActivity.newIntent(getActivity(), i);
-                startActivity(intent);
+                mCallbacks.onEventSelected(i);
             }
         });
 
         return v;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallbacks = null;
     }
 
     private String[] getEventNames() {
