@@ -66,7 +66,7 @@ public class EventAdapter extends BaseAdapter {
         }
 
         if (i == mSelectedIndex) {
-            view.setBackgroundColor(Color.BLUE);
+            view.setBackgroundColor(Color.GREEN);
         } else {
             view.setBackgroundColor(Color.parseColor("#FAFAFA"));
         }
