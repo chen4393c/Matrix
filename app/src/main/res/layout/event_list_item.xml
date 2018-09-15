@@ -9,7 +9,7 @@
         android:id="@+id/event_thumbnail"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/apple"
+        tools:src="@drawable/apple"
         android:layout_weight="1"/>
     
     <RelativeLayout
