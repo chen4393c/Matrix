@@ -1,5 +1,7 @@
 package com.laioffer.matrix;
 
+import java.util.UUID;
+
 public class Event {
 
     private String mTitle;

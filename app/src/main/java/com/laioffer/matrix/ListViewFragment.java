@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class ListViewFragment extends Fragment {
 
@@ -39,7 +38,8 @@ public class ListViewFragment extends Fragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getActivity(), i + " clicked!", Toast.LENGTH_SHORT).show();
+                Intent intent = GridViewActivity.newIntent(getActivity(), i);
+                startActivity(intent);
             }
         });
 
