@@ -7,6 +7,6 @@
           android:numColumns="2"
           android:verticalSpacing="10dp"
           android:horizontalSpacing="10dp"
-          tools:context=".GridViewFragment">
+          tools:context=".basics.GridViewFragment">
 
 </GridView>

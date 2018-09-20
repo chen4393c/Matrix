@@ -1,4 +1,4 @@
-package com.laioffer.matrix;
+package com.laioffer.matrix.basics;
 
 import java.util.UUID;
 

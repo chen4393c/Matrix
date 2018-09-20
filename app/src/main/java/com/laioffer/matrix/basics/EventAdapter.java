@@ -1,14 +1,17 @@
-package com.laioffer.matrix;
+package com.laioffer.matrix.basics;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.laioffer.matrix.R;
+import com.laioffer.matrix.basics.DataService;
+import com.laioffer.matrix.basics.Event;
 
 import java.util.List;
 

@@ -1,13 +1,14 @@
-package com.laioffer.matrix;
+package com.laioffer.matrix.basics;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+
+import com.laioffer.matrix.R;
 
 public class GridViewFragment extends Fragment {
 

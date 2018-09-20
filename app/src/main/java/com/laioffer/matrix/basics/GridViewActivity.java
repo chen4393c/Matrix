@@ -1,11 +1,8 @@
-package com.laioffer.matrix;
+package com.laioffer.matrix.basics;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
-import android.util.Log;
-
-import java.util.UUID;
 
 public class GridViewActivity extends SingleFragmentActivity {
 

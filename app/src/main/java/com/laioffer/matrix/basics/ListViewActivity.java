@@ -1,7 +1,9 @@
-package com.laioffer.matrix;
+package com.laioffer.matrix.basics;
 
 import android.content.Intent;
 import android.support.v4.app.Fragment;
+
+import com.laioffer.matrix.R;
 
 public class ListViewActivity extends SingleFragmentActivity
         implements ListViewFragment.Callbacks {

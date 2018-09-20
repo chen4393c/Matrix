@@ -9,11 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ListViewActivity">
+        <activity android:name=".basics.ListViewActivity">
 
         </activity>
 
-        <activity android:name=".GridViewActivity">
+        <activity android:name=".basics.GridViewActivity">
         </activity>
 
         <activity android:name=".ControlPanel">
