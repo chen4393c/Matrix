@@ -4,8 +4,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 
 public class ControlPanel extends AppCompatActivity {
 
@@ -17,6 +19,12 @@ public class ControlPanel extends AppCompatActivity {
         ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
         vpPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
         vpPager.setCurrentItem(0);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setDisplayHomeAsUpEnabled(true);
+        actionbar.setHomeAsUpIndicator(R.drawable.menu);
     }
 
     /**
