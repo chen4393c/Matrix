@@ -48,7 +48,7 @@ public class ControlPanel extends AppCompatActivity {
      * Fragment pager allows us to choose fragments
      */
     public static class MyPagerAdapter extends FragmentPagerAdapter {
-        private static int NUM_ITEMS = 1;
+        private static int NUM_ITEMS = 2;
 
         public MyPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
@@ -66,6 +66,8 @@ public class ControlPanel extends AppCompatActivity {
             switch (position) {
                 case 0:
                     return LoginFragment.newInstance();
+                case 1:
+                    return MainFragment.newInstance();
                 default:
                     return null;
             }
@@ -75,9 +77,9 @@ public class ControlPanel extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Account";
-                case 1:
                     return "Map";
+                case 1:
+                    return "Account";
             }
 
             return null;
