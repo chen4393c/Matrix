@@ -111,6 +111,7 @@ public class LoginFragment extends Fragment {
                                         .child("user_password")
                                         .getValue()))) {
                             Config.username = username;
+                            Utils.hideKeyboard(getActivity());
                             showLayout();
                         } else {
                             Toast.makeText(getActivity(),
