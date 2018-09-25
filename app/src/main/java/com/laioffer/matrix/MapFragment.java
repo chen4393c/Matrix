@@ -4,6 +4,7 @@ package com.laioffer.matrix;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -11,6 +12,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -18,6 +21,8 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -30,6 +35,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -45,6 +53,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
     private FloatingActionButton mFABReport;
     private Dialog mDialog;
+    private RecyclerView mRecyclerView;
+    private ReportRecyclerViewAdapter mAdapter;
 
     public MapFragment() {
         // Required empty public constructor
@@ -144,8 +154,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     //Animation show dialog
     private void showDialog() {
-        final View dialogView = View.inflate(getActivity(),R.layout.dialog,null);
-        mDialog = new Dialog(getActivity(),R.style.MyAlertDialogStyle);
+        final View dialogView = View.inflate(getActivity(), R.layout.dialog, null);
+        mDialog = new Dialog(getActivity(), R.style.MyAlertDialogStyle);
         mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         mDialog.setContentView(dialogView);
 
@@ -159,7 +169,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
             @Override
             public boolean onKey(DialogInterface dialogInterface, int i, KeyEvent keyEvent) {
-                if (i == KeyEvent.KEYCODE_BACK){
+                if (i == KeyEvent.KEYCODE_BACK) {
                     animateDialog(dialogView, false, mDialog);
                     return true;
                 }
@@ -168,6 +178,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         });
 
         mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        setupRecyclerView(dialogView);
         mDialog.show();
     }
 
@@ -179,11 +190,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         int endRadius = (int) Math.hypot(w, h);
 
-        int cx = (int) (mFABReport.getX() + (mFABReport.getWidth()/2));
-        int cy = (int) (mFABReport.getY())+ mFABReport.getHeight() + 56;
+        int cx = (int) (mFABReport.getX() + (mFABReport.getWidth() / 2));
+        int cy = (int) (mFABReport.getY()) + mFABReport.getHeight() + 56;
 
-        if(open){
-            Animator revealAnimator = ViewAnimationUtils.createCircularReveal(view, cx,cy, 0, endRadius);
+        if (open) {
+            Animator revealAnimator = ViewAnimationUtils.createCircularReveal(view, cx, cy, 0, endRadius);
             view.setVisibility(View.VISIBLE);
             revealAnimator.setDuration(500);
             revealAnimator.start();
@@ -202,6 +213,74 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             });
             anim.setDuration(500);
             anim.start();
+        }
+    }
+
+    //Set up type items
+    private void setupRecyclerView(View dialogView) {
+        mRecyclerView = dialogView.findViewById(R.id.recycler_view);
+        mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        List<Item> listItems = new ArrayList<Item>();
+        listItems.add(new Item(Config.POLICE, R.drawable.policeman));
+        listItems.add(new Item(Config.TRAFFIC, R.drawable.traffic));
+        listItems.add(new Item(Config.NO_ENTRY, R.drawable.no_entry));
+        listItems.add(new Item(Config.NO_PARKING, R.drawable.no_parking));
+        listItems.add(new Item(Config.SECURITY_CAMERA, R.drawable.security_camera));
+        listItems.add(new Item(Config.HEADLIGHT, R.drawable.lights));
+        listItems.add(new Item(Config.SPEEDING, R.drawable.speeding));
+        listItems.add(new Item(Config.CONSTRUCTION, R.drawable.construction));
+        listItems.add(new Item(Config.SLIPPERY, R.drawable.slippery));
+        mAdapter = new ReportRecyclerViewAdapter(getActivity(), listItems);
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
+    /**
+     * Step1 : declare the view holder structure
+     */
+    private class ReportViewHolder extends RecyclerView.ViewHolder {
+
+        TextView mTextView;
+        ImageView mImageView;
+        View mView;
+
+        public ReportViewHolder(View itemView) {
+            super(itemView);
+            mView = itemView;
+            mTextView = (TextView) mView.findViewById(R.id.info_text);
+            mImageView = (ImageView) mView.findViewById(R.id.info_img);
+        }
+
+        private void bind(Item item) {
+            mTextView.setText(item.getDrawableLabel());
+            mImageView.setImageResource(item.getDrawableId());
+        }
+    }
+
+    private class ReportRecyclerViewAdapter extends RecyclerView.Adapter<ReportViewHolder> {
+
+        private List<Item> mItems;
+
+        public ReportRecyclerViewAdapter(Context context, List<Item> items) {
+            this.mItems = items;
+        }
+
+        @Override
+        public int getItemCount() {
+            return mItems.size();
+        }
+
+        @NonNull
+        @Override
+        public ReportViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            LayoutInflater inflater = LayoutInflater.from(getActivity());
+            View view = inflater.inflate(R.layout.recycler_view_item, parent, false);
+            return new ReportViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull ReportViewHolder holder, int position) {
+            Item item = mItems.get(position);
+            holder.bind(item);
         }
     }
 }

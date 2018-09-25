@@ -7,10 +7,12 @@
               android:background="@color/colorDark">
 
     <ViewSwitcher
-        android:id="@+id/viewSwitcher"
+        android:id="@+id/view_switcher"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <include layout="@layout/report_event_type"/>
+
     </ViewSwitcher>
 
 </LinearLayout>
