@@ -21,7 +21,7 @@
         <activity android:name=".basics.GridViewActivity">
         </activity>
 
-        <activity android:name=".ControlPanel">
+        <activity android:name=".ControlPanelActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

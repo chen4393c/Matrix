@@ -35,9 +35,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MainFragment extends Fragment implements OnMapReadyCallback {
+public class MapFragment extends Fragment implements OnMapReadyCallback {
 
-    private static final String TAG = "MainFragment";
+    private static final String TAG = "MapFragment";
 
     private LocationTracker locationTracker;
     private MapView mMapView;
@@ -46,14 +46,14 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     private FloatingActionButton mFABReport;
     private Dialog mDialog;
 
-    public MainFragment() {
+    public MapFragment() {
         // Required empty public constructor
     }
 
     // newInstance constructor for creating fragment with arguments
-    public static MainFragment newInstance() {
-        MainFragment mainFragment = new MainFragment();
-        return mainFragment;
+    public static MapFragment newInstance() {
+        MapFragment mapFragment = new MapFragment();
+        return mapFragment;
     }
 
     @Override
