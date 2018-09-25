@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
@@ -25,8 +28,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
  */
 public class MainFragment extends Fragment implements OnMapReadyCallback {
 
+    private static final String TAG = "MainFragment";
+
+    private LocationTracker locationTracker;
     private MapView mMapView;
     private View mView;
+    private GoogleMap mMap;
 
     public MainFragment() {
         // Required empty public constructor
@@ -41,6 +48,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.i(TAG, "onCreateView(inflater, container, savedInstanceState)");
         mView = inflater.inflate(R.layout.fragment_main, container,
                 false);
         return mView;
@@ -83,28 +91,36 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        Log.i(TAG, "onMapReady(googleMap)");
         MapsInitializer.initialize(getContext());
-        double latitude = 17.385044;
-        double longitude = 78.486671;
 
-        // Create marker on google map
-        MarkerOptions marker = new MarkerOptions().position(
-                new LatLng(latitude, longitude)).title("This is your focus");
+        mMap = googleMap;
+        mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(getActivity(), R.raw.map_style));
 
-        // Change marker Icon on google map
-        marker.icon(BitmapDescriptorFactory
-                .defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
+        locationTracker = new LocationTracker(getActivity());
+        locationTracker.getLocation();
 
-        // Add marker to google map
-        googleMap.addMarker(marker);
+        double lat = locationTracker.getLatitude();
+        double lon = locationTracker.getLongitude();
+        Log.i(TAG, "lat, lon: " + lat + ", " + lon);
+        LatLng latLng = new LatLng(lat, lon);
 
-
-        // Set up camera configuration, set camera to latitude = 17.385044, longitude = 78.486671, and set Zoom to 12
         CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(new LatLng(latitude, longitude)).zoom(12).build();
+                .target(latLng)      // Sets the center of the map to Mountain View
+                .zoom(16)// Sets the zoom
+                .bearing(90)           // Sets the orientation of the camera to east
+                .tilt(30)                   // Sets the tilt of the camera to 30 degrees
+                .build();                   // Creates a CameraPosition from the builder
 
-        // Animate the zoom process
-        googleMap.animateCamera(CameraUpdateFactory
-                .newCameraPosition(cameraPosition));
+        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+        MarkerOptions marker = new MarkerOptions().position(latLng).
+                title("You");
+
+        // Changing marker icon
+        marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.boy));
+
+        // adding marker
+        Marker mker = mMap.addMarker(marker);
     }
 }
