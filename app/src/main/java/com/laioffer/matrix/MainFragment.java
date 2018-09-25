@@ -1,14 +1,18 @@
 package com.laioffer.matrix;
 
 
+import android.app.Dialog;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -34,6 +38,8 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     private MapView mMapView;
     private View mView;
     private GoogleMap mMap;
+    private FloatingActionButton mFABReport;
+    private Dialog mDialog;
 
     public MainFragment() {
         // Required empty public constructor
@@ -63,6 +69,13 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
             mMapView.onResume();// needed to get the map to display immediately
             mMapView.getMapAsync(this);
         }
+        mFABReport = (FloatingActionButton) mView.findViewById(R.id.fab);
+        mFABReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDiag();
+            }
+        });
     }
 
     @Override
@@ -122,5 +135,16 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
         // adding marker
         Marker mker = mMap.addMarker(marker);
+    }
+
+    //Animation show dialog
+    private void showDiag() {
+        final View dialogView = View.inflate(getActivity(),R.layout.dialog,null);
+        mDialog = new Dialog(getActivity(),R.style.MyAlertDialogStyle);
+        mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        mDialog.setContentView(dialogView);
+
+        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        mDialog.show();
     }
 }
