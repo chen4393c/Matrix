@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             app:tabMaxWidth="0dp"
             app:tabGravity="fill"
-            app:tabMode="fixed" />
+            app:tabMode="fixed"/>
 
         <android.support.v4.view.ViewPager
             android:id="@+id/vpPager"
@@ -25,29 +25,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <android.support.v4.view.PagerTabStrip
-                android:id="@+id/pager_header"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top"
-                android:paddingBottom="4dp"
-                android:paddingTop="4dp" />
+
 
         </android.support.v4.view.ViewPager>
     </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/content_frame"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"
-            android:background="@color/colorOrange"
-            android:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
-    </FrameLayout>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"

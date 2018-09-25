@@ -78,7 +78,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         mFABReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDiag();
+                showDialog();
             }
         });
     }
@@ -143,7 +143,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     }
 
     //Animation show dialog
-    private void showDiag() {
+    private void showDialog() {
         final View dialogView = View.inflate(getActivity(),R.layout.dialog,null);
         mDialog = new Dialog(getActivity(),R.style.MyAlertDialogStyle);
         mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

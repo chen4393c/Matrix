@@ -1,6 +1,7 @@
 package com.laioffer.matrix;
 
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -36,11 +37,15 @@ public class ControlPanel extends AppCompatActivity {
         vpPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
         vpPager.setCurrentItem(0);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setHomeAsUpIndicator(R.drawable.menu);
+        // Give the TabLayout the ViewPager
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+        tabLayout.setupWithViewPager(vpPager);
+
+//        Toolbar toolbar = findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//        ActionBar actionbar = getSupportActionBar();
+//        actionbar.setDisplayHomeAsUpEnabled(true);
+//        actionbar.setHomeAsUpIndicator(R.drawable.menu);
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
@@ -116,7 +121,9 @@ public class ControlPanel extends AppCompatActivity {
      * Fragment pager allows us to choose fragments
      */
     public static class MyPagerAdapter extends FragmentPagerAdapter {
+
         private static int NUM_ITEMS = 2;
+        private String tabTitles[] = new String[] { "Account", "Map" };
 
         public MyPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
@@ -143,14 +150,8 @@ public class ControlPanel extends AppCompatActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "Account";
-                case 1:
-                    return "Map";
-            }
-
-            return null;
+            // Generate title based on item position
+            return tabTitles[position];
         }
     }
 }
