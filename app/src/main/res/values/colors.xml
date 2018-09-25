@@ -11,4 +11,13 @@
     <color name="soothing_blue">#0083BF</color>
     <color name="dark_blue">#005A8A</color>
     <color name="light_slate_grey">#778899</color>
+    <color name="light_green">#8BC34A</color>
+    <color name="green">#4CAF50</color>
+    <color name="deep_orange">#FF5722</color>
+    <color name="purple">#9C27B0</color>
+    <color name="deep_purple">#673AB7</color>
+    <color name="cyan">#00BCD4</color>
+    <color name="cyan_dark">#00ACC1</color>
+    <color name="blue_grey">#607D8B</color>
+    <color name="amber">#FFC107</color>
 </resources>

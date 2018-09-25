@@ -12,7 +12,7 @@
         android:layout_margin="16dp"
         android:text="Logout"
         android:textColor="@android:color/white"
-        android:background="@drawable/login_buttons"
+        android:background="@drawable/logout_buttons"
         android:fontFamily="Roboto"/>
 
 </LinearLayout>

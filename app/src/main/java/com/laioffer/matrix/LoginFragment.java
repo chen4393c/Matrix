@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -22,7 +23,7 @@ public class LoginFragment extends Fragment {
 
     private View loginLayout;
     private View logoutLayout;
-    private EditText mUsernameEditText;
+    private AutoCompleteTextView mUsernameTextView;
     private EditText mPasswordEditText;
     private Button mSubmitButton;
     private Button mRegisterButton;
@@ -55,7 +56,7 @@ public class LoginFragment extends Fragment {
         showLayout();
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        mUsernameEditText = (EditText) view.findViewById(R.id.editTextLogin);
+        mUsernameTextView = (AutoCompleteTextView) view.findViewById(R.id.user_name_text_view);
         mPasswordEditText = (EditText) view.findViewById(R.id.editTextPassword);
         mSubmitButton = (Button) view.findViewById(R.id.submit);
         mRegisterButton = (Button) view.findViewById(R.id.register);
@@ -64,7 +65,7 @@ public class LoginFragment extends Fragment {
         mRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String username = mUsernameEditText.getText().toString();
+                final String username = mUsernameTextView.getText().toString();
                 final String password = mPasswordEditText.getText().toString();
 
                 mDatabase.child("user").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -72,7 +73,7 @@ public class LoginFragment extends Fragment {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot.hasChild(username)) {
                             Toast.makeText(getActivity(),
-                                    "username is already registered, please change one",
+                                    "username is already registered, please change another username",
                                     Toast.LENGTH_SHORT).show();
                         } else if (!username.equals("") && !password.equals("")){
                             // put username as key to set value
@@ -99,7 +100,7 @@ public class LoginFragment extends Fragment {
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String username = mUsernameEditText.getText().toString();
+                final String username = mUsernameTextView.getText().toString();
                 final String password = Utils.md5Encryption(mPasswordEditText.getText().toString());
 
                 mDatabase.child("user").addListenerForSingleValueEvent(new ValueEventListener() {
