@@ -129,9 +129,9 @@ public class ControlPanelActivity extends AppCompatActivity
         return true;
     }
 
-    public static class PagerAdapter extends FragmentPagerAdapter {
+    private class PagerAdapter extends FragmentPagerAdapter {
 
-        private static int NUM_ITEMS = 2;
+        private final int NUM_ITEMS = 2;
         private String tabTitles[] = new String[] { "Account", "Map" };
 
         public PagerAdapter(FragmentManager fragmentManager) {
