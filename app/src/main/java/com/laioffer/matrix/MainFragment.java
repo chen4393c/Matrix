@@ -1,7 +1,10 @@
 package com.laioffer.matrix;
 
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,8 +12,10 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.Window;
 
@@ -144,7 +149,59 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         mDialog.setContentView(dialogView);
 
+        mDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                animateDialog(dialogView, true, null);
+            }
+        });
+
+        mDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialogInterface, int i, KeyEvent keyEvent) {
+                if (i == KeyEvent.KEYCODE_BACK){
+                    animateDialog(dialogView, false, mDialog);
+                    return true;
+                }
+                return false;
+            }
+        });
+
         mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         mDialog.show();
+    }
+
+    //Add animation to Floating Action Button
+    private void animateDialog(View dialogView, boolean open, final Dialog dialog) {
+        final View view = dialogView.findViewById(R.id.dialog);
+        int w = view.getWidth();
+        int h = view.getHeight();
+
+        int endRadius = (int) Math.hypot(w, h);
+
+        int cx = (int) (mFABReport.getX() + (mFABReport.getWidth()/2));
+        int cy = (int) (mFABReport.getY())+ mFABReport.getHeight() + 56;
+
+        if(open){
+            Animator revealAnimator = ViewAnimationUtils.createCircularReveal(view, cx,cy, 0, endRadius);
+            view.setVisibility(View.VISIBLE);
+            revealAnimator.setDuration(500);
+            revealAnimator.start();
+
+        } else {
+            Animator anim = ViewAnimationUtils.createCircularReveal(view, cx, cy, endRadius, 0);
+
+            anim.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    dialog.dismiss();
+                    view.setVisibility(View.INVISIBLE);
+
+                }
+            });
+            anim.setDuration(500);
+            anim.start();
+        }
     }
 }
