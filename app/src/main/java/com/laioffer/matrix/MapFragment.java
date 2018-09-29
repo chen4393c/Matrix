@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -35,6 +36,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.laioffer.matrix.model.Item;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +54,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private View mView;
     private GoogleMap mMap;
     private FloatingActionButton mFABReport;
+    private FloatingActionButton mFABFocus;
     private Dialog mDialog;
     private RecyclerView mRecyclerView;
     private ReportRecyclerViewAdapter mAdapter;
@@ -89,6 +92,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onClick(View view) {
                 showDialog();
+            }
+        });
+        mFABFocus = (FloatingActionButton) mView.findViewById(R.id.fab_focus);
+        mFABFocus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(), "focus", Toast.LENGTH_SHORT).show();
+                mMapView.getMapAsync(MapFragment.this);
             }
         });
     }
@@ -195,7 +206,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         if (open) {
             Animator revealAnimator = ViewAnimationUtils.createCircularReveal(view, cx, cy, 0, endRadius);
-            view.setVisibility(View.VISIBLE);
+//            view.setVisibility(View.VISIBLE);
             revealAnimator.setDuration(500);
             revealAnimator.start();
 

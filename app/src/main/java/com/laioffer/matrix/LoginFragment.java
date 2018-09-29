@@ -15,6 +15,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.laioffer.matrix.model.User;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -75,14 +76,14 @@ public class LoginFragment extends Fragment {
                             Toast.makeText(getActivity(),
                                     "username is already registered, please change another username",
                                     Toast.LENGTH_SHORT).show();
-                        } else if (!username.equals("") && !password.equals("")){
+                        } else if (!username.equals("") && !password.equals("")) {
                             // put username as key to set value
                             final User user = new User();
-                            user.setUser_account(username);
-                            user.setUser_password(Utils.md5Encryption(password));
-                            user.setUser_timestamp(System.currentTimeMillis());
+                            user.setUserAccount(username);
+                            user.setUserPassword(Utils.md5Encryption(password));
+                            user.setUserTimestamp(System.currentTimeMillis());
 
-                            mDatabase.child("user").child(user.getUser_account()).setValue(user);
+                            mDatabase.child("user").child(user.getUserAccount()).setValue(user);
                             Toast.makeText(getActivity(),
                                     "Successfully registered",
                                     Toast.LENGTH_SHORT).show();

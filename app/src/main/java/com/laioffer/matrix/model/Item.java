@@ -1,4 +1,4 @@
-package com.laioffer.matrix;
+package com.laioffer.matrix.model;
 
 public class Item {
 
