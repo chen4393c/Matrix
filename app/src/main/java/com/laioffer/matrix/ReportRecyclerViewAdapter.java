@@ -12,7 +12,8 @@ import com.laioffer.matrix.model.Item;
 
 import java.util.List;
 
-public class ReportRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ReportRecyclerViewAdapter
+        extends RecyclerView.Adapter<ReportRecyclerViewAdapter.ViewHolder> {
 
     private Context mContext;
     private List<Item> mItems;
@@ -27,7 +28,7 @@ public class ReportRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     }
 
     public interface OnClickListener{
-        public void setItem(String item);
+        void setItem(String itemLabel);
     }
 
     public void setClickListener(ReportRecyclerViewAdapter.OnClickListener callback) {
@@ -41,9 +42,9 @@ public class ReportRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
      * @return created view holder
      */
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.recycler_view_item, parent, false);
-        RecyclerView.ViewHolder holder = new ViewHolder(view);
+        ViewHolder holder = new ViewHolder(view);
         return holder;
     }
 
@@ -53,15 +54,14 @@ public class ReportRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
      * @param position corresponding position
      */
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        ViewHolder viewHolder = (ViewHolder)holder;
-        viewHolder.mTextView.setText(mItems.get(position).getDrawableLabel());
-        viewHolder.mImageView.setImageResource(mItems.get(position).getDrawableId());
+    public void onBindViewHolder(ViewHolder holder, final int position) {
+        final Item item = mItems.get(position);
+        holder.bind(item);
 
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mClickListener.setItem(mItems.get(position).getDrawableLabel());
+                mClickListener.setItem(item.getDrawableLabel());
             }
         });
     }
@@ -76,6 +76,8 @@ public class ReportRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
      * Step1 : declare the view holder structure
      */
     public class ViewHolder extends RecyclerView.ViewHolder {
+
+        Item mItem;
         TextView mTextView;
         ImageView mImageView;
         View view;
@@ -85,6 +87,12 @@ public class ReportRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             view = itemView;
             mTextView = (TextView) itemView.findViewById(R.id.info_text);
             mImageView = (ImageView) itemView.findViewById(R.id.info_img);
+        }
+
+        private void bind(Item item) {
+            mItem = item;
+            mTextView.setText(mItem.getDrawableLabel());
+            mImageView.setImageResource(mItem.getDrawableId());
         }
     }
 }

@@ -212,7 +212,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mViewSwitcher.setInAnimation(slide_in_left);
         mViewSwitcher.setOutAnimation(slide_out_right);
 
-        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        mDialog.getWindow().setBackgroundDrawable(
+                new ColorDrawable(android.graphics.Color.TRANSPARENT));
         setupRecyclerView(dialogView);
         setUpEventSpecs(dialogView);
         mDialog.show();
@@ -269,9 +270,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mAdapter = new ReportRecyclerViewAdapter(getActivity(), listItems);
         mAdapter.setClickListener(new ReportRecyclerViewAdapter.OnClickListener() {
             @Override
-            public void setItem(String item) {
-                eventType = item;
-                Log.d(TAG, mViewSwitcher.toString());
+            public void setItem(String itemLabel) {
+                eventType = itemLabel;
                 if (mViewSwitcher != null) {
                     mViewSwitcher.showNext();
                     mTypeTextView.setText(eventType);
@@ -299,72 +299,4 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
         });
     }
-
-//    /**
-//     * Step1 : declare the view holder structure
-//     */
-//    private class ReportViewHolder extends RecyclerView.ViewHolder
-//            implements View.OnClickListener {
-//
-//        TextView mTextView;
-//        ImageView mImageView;
-//        View mView;
-//        Item mItem;
-//
-//        public ReportViewHolder(View itemView) {
-//            super(itemView);
-//            mView = itemView;
-//            mTextView = (TextView) mView.findViewById(R.id.info_text);
-//            mImageView = (ImageView) mView.findViewById(R.id.info_img);
-//        }
-//
-//        @Override
-//        public void onClick(View view) {
-//            Log.i(TAG, "onClick(view): " + mItem.getDrawableLabel());
-//            Toast.makeText(getContext(), mItem.getDrawableLabel(), Toast.LENGTH_SHORT).show();
-//        }
-//
-//        private void bind(Item item) {
-//            mItem = item;
-//            mTextView.setText(mItem.getDrawableLabel());
-//            mImageView.setImageResource(mItem.getDrawableId());
-//        }
-//    }
-//
-//    private static class ReportRecyclerViewAdapter extends RecyclerView.Adapter<ReportViewHolder> {
-//
-//        private List<Item> mItems;
-//
-//        private OnClickListener mClickListener;
-//
-//        private ViewSwitcher mViewSwitcher;
-//        private String event_type = null;
-//
-//        public interface OnClickListener{
-//            public void setItem(String item);
-//        }
-//
-//        public ReportRecyclerViewAdapter(Context context, List<Item> items) {
-//            this.mItems = items;
-//        }
-//
-//        @Override
-//        public int getItemCount() {
-//            return mItems.size();
-//        }
-//
-//        @NonNull
-//        @Override
-//        public ReportViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//            LayoutInflater inflater = LayoutInflater.from(getActivity());
-//            View view = inflater.inflate(R.layout.recycler_view_item, parent, false);
-//            return new ReportViewHolder(view);
-//        }
-//
-//        @Override
-//        public void onBindViewHolder(@NonNull ReportViewHolder holder, int position) {
-//            Item item = mItems.get(position);
-//            holder.bind(item);
-//        }
-//    }
 }
