@@ -257,7 +257,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private void setupRecyclerView(View dialogView) {
         mRecyclerView = dialogView.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        List<Item> listItems = new ArrayList<Item>();
+        List<Item> listItems = new ArrayList<>();
         listItems.add(new Item(Config.POLICE, R.drawable.policeman));
         listItems.add(new Item(Config.TRAFFIC, R.drawable.traffic));
         listItems.add(new Item(Config.NO_ENTRY, R.drawable.no_entry));
