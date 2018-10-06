@@ -27,22 +27,23 @@
         android:layout_above="@+id/event_send"
         android:layout_width="match_parent"
         android:orientation="horizontal"
-        android:layout_height="100dp"
-        >
+        android:layout_height="100dp">
+
         <ImageView
             android:id="@+id/event_camera_img"
             android:layout_width="100dp"
             android:layout_gravity="center"
             android:layout_height="match_parent"
             android:layout_margin="15dp"
-            android:src="@drawable/camera" />
+            android:src="@drawable/camera"/>
+
         <View
             android:layout_height="match_parent"
             android:layout_width="1dp"
             android:layout_marginTop="18dp"
             android:layout_marginBottom="18dp"
-            android:background="@color/colorPrimaryDark"
-            />
+            android:background="@color/colorPrimaryDark"/>
+
         <EditText
             android:id="@+id/event_comment"
             android:layout_width="match_parent"
@@ -51,9 +52,7 @@
             android:layout_margin="15dp"
             android:paddingLeft="10dp"
             android:textColor="#FFFFFF"
-            android:hint="Enter your comment here!" >
-
-        </EditText>
+            android:hint="Enter your comment here!"/>
     </LinearLayout>
 
     <LinearLayout
