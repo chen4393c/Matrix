@@ -4,11 +4,14 @@ package com.laioffer.matrix;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -48,8 +51,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.laioffer.matrix.model.Item;
 import com.laioffer.matrix.model.TrafficEvent;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.app.Activity.RESULT_OK;
 
 
 /**
@@ -58,6 +67,8 @@ import java.util.List;
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private static final String TAG = "MapFragment";
+
+    private static final int REQUEST_CAPTURE_IMAGE = 100;
 
     private LocationTracker locationTracker;
     private MapView mMapView;
@@ -304,6 +315,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
+        mImageCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent pictureIntent = new Intent(
+                        MediaStore.ACTION_IMAGE_CAPTURE
+                );
+
+                startActivityForResult(pictureIntent, REQUEST_CAPTURE_IMAGE);
+
+            }
+        });
+
         mSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -315,15 +339,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     //Upload event
     private String uploadEvent(String user_id) {
         TrafficEvent event = new TrafficEvent();
-
-        event.setEvent_type(eventType);
-        event.setEvent_description(mCommentEditText.getText().toString());
-        event.setEvent_reporter_id(user_id);
-        event.setEvent_timestamp(System.currentTimeMillis());
-        event.setEvent_latitude(locationTracker.getLatitude());
-        event.setEvent_longitude(locationTracker.getLongitude());
-        event.setEvent_like_number(0);
-        event.setEvent_comment_number(0);
+        // better use builder pattern
+        event.setEventType(eventType);
+        event.setEventDescription(mCommentEditText.getText().toString());
+        event.setEventReporterId(user_id);
+        event.setEventTimestamp(System.currentTimeMillis());
+        event.setEventLatitude(locationTracker.getLatitude());
+        event.setEventLongitude(locationTracker.getLongitude());
+        event.setEventLikeNumber(0);
+        event.setEventCommentNumber(0);
 
         String key = database.child("events").push().getKey();
         event.setId(key);
@@ -346,4 +370,36 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         return key;
     }
 
+
+    //Store the image into local disk
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CAPTURE_IMAGE &&
+                resultCode == RESULT_OK) {
+            if (data != null && data.getExtras() != null) {
+                Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
+                mImageCamera.setImageBitmap(imageBitmap);
+
+                //Compress the image, this is optional
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                imageBitmap.compress(Bitmap.CompressFormat.PNG, 90, bytes);
+                File destination = new File(Environment.getExternalStorageDirectory(),"temp.png");
+                if(!destination.exists()) {
+                    try {
+                        destination.createNewFile();
+                    }catch(IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+                FileOutputStream fo;
+                try {
+                    fo = new FileOutputStream(destination);
+                    fo.write(bytes.toByteArray());
+                    fo.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }
